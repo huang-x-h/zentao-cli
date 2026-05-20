@@ -7,8 +7,7 @@
 1. 命令工具安装
 
 ```bash
-cd zentao-cli
-npm install -g .
+npm install -g @huang.xinghui/zentao-cli
 ```
 
 2. Agent 技能安装
@@ -115,8 +114,8 @@ zentao-cli releases 1
 
 ## 环境变量
 
-| 变量 | 说明 |
-|------|------|
+| 变量        | 说明     |
+| ----------- | -------- |
 | ZENTAO_HOST | 禅道地址 |
 
 ## 配置文件

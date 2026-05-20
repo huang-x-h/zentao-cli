@@ -113,7 +113,15 @@ program.command('stories').description('stories')
       if (opts.build) {
         stories = await client.listStoriesByBuild(opts.build, { limit: opts.limit });
       } else if (productId) {
-        stories = await client.listStories(productId, { status: opts.status, plan: opts.plan, limit: opts.limit });
+        stories = await client.listStories(productId, { status: opts.status, plan: opts.plan, openedBy: opts.openedBy });
+        if (opts.taskCount !== undefined) {
+          const taskCountFilter = parseInt(opts.taskCount);
+          stories = await Promise.all(stories.map(async function(s) {
+            try { var tasks = await client.getStoryTasks(s.id); s.taskCount = Object.keys(tasks).length; } catch (e) { s.taskCount = 0; }
+            return s;
+          }));
+          stories = stories.filter(function(s) { return s.taskCount === taskCountFilter; });
+        }
       } else {
         console.error('productId or --build required'); process.exit(1);
       }

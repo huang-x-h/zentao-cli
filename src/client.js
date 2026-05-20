@@ -181,13 +181,17 @@ export default {
   },
 
   getProductPlans: async function(productId) {
-    var data = await api('product', 'browse', { productID: productId });
+    var data = await api('productplan', 'browse', { productID: productId });
     var plans = data.plans || {};
     return Object.keys(plans).filter(function(id) { return id !== ''; }).map(function(id) {
       var p = plans[id];
-      var match = p.match(/^(.+?)\s*\[([\d-]+)\s*~\s*([\d-]+)\]$/);
-      return { id: id, name: match ? match[1] : p, startDate: match ? match[2] : '', endDate: match ? match[3] : '' };
+      return { id: p.id, name: p.title || '', startDate: p.begin || '', endDate: p.end || '', stories: p.stories || 0 };
     });
+  },
+
+  getStoryTasks: async function(storyId) {
+    var data = await api('story', 'tasks-' + storyId, {});
+    return data.tasks || {};
   },
 
   api: api
