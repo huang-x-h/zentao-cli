@@ -35,6 +35,8 @@ async function api(module, method, params) {
 }
 
 export default {
+  get host() { return _host; },
+  get cookie() { return _cookie; },
   setHost: function(host) { _host = host.replace(/\/$/, ''); saveConfig(); },
   setCookie: function(cookie) { _cookie = cookie; saveConfig(); },
   
